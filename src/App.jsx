@@ -1,13 +1,13 @@
 import ProductList from "./components/products/ProductList";
-import EmptyCart from "./components/cart/EmptyCart";
+import Cart from "./components/cart/Cart";
 
 function App() {
-  return (
-    <>
-      <ProductList />
-      <EmptyCart />
-    </>
-  );
+    return (
+        <>
+            <ProductList />
+            <Cart />
+        </>
+    );
 }
 
 export default App;

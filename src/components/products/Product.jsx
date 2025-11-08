@@ -2,11 +2,11 @@ import data from "../../data.json";
 import "../../index.css";
 import { useState } from "react";
 
-function ProductCard({ item }) {
+function ProductCard({ item, name }) {
     const [count, setCount] = useState(0);
 
     return (
-        <article key={item.category} className="mb-6">
+        <article key={name} className="mb-6">
             <div
                 className={`relative ${
                     count > 0 ? "border-2 border-red rounded-lg" : ""
@@ -50,14 +50,20 @@ function ProductCard({ item }) {
                     </div>
                 ) : (
                     <div className="absolute-el bg-red border-none text-white flex justify-evenly items-center">
-                        <button className="border border-white rounded-full size-6 flex items-center justify-center" onClick={() => setCount(count - 1)}>
+                        <button
+                            className="border border-white rounded-full size-6 flex items-center justify-center"
+                            onClick={() => setCount(count - 1)}
+                        >
                             <img
                                 src="../../../assets/images/icon-decrement-quantity.svg"
                                 alt="minus icon"
                             />
                         </button>
                         <span>{count}</span>
-                        <button className="border border-white rounded-full size-6 flex items-center justify-center" onClick={() => setCount(count + 1)}>
+                        <button
+                            className="border border-white rounded-full size-6 flex items-center justify-center"
+                            onClick={() => setCount(count + 1)}
+                        >
                             <img
                                 src="../../../assets/images/icon-increment-quantity.svg"
                                 alt="plus icon"
@@ -89,7 +95,7 @@ function Product() {
     return (
         <>
             {data.map(item => (
-                <ProductCard item={item} />
+                <ProductCard item={item} name={item.category} />
             ))}
         </>
     );
