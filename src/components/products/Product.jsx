@@ -1,47 +1,52 @@
-import data from "../../data.json";
 import "../../index.css";
+import data from "../../data.json";
 import { useState } from "react";
 
-function ProductCard({ item, name }) {
-    const [count, setCount] = useState(0);
-
+function ProductCard({
+    product,
+    onAddItemToCart,
+    onUpdateQuantity,
+    onHandleItemQuantity
+}) {
     return (
-        <article key={name} className="mb-6">
+        <article className="mb-6">
             <div
                 className={`relative ${
-                    count > 0 ? "border-2 border-red rounded-lg" : ""
+                    onHandleItemQuantity(product.category) > 0
+                        ? "border-2 border-red rounded-lg"
+                        : ""
                 }`}
             >
                 <figure>
                     {/*Show appropriate image based on device width*/}
                     <picture>
                         <source
-                            srcSet={item.image.mobile}
+                            srcSet={product.image.mobile}
                             media="(min-width: 320px)"
                         />
                         <source
-                            srcSet={item.image.tablet}
+                            srcSet={product.image.tablet}
                             media="(min-width: 768px)"
                         />
                         <source
-                            srcSet={item.image.desktop}
+                            srcSet={product.image.desktop}
                             media="(min-width: 1280px)"
                         />
                         <img
-                            src={item.image.mobile}
-                            alt={item.category}
+                            src={product.image.mobile}
+                            alt={product.category}
                             className="rounded-lg w-full"
                         />
                     </picture>
                 </figure>
                 {/*Render two separate elements depending on count */}
-                {count === 0 ? (
+                {onHandleItemQuantity(product.category) === 0 ? (
                     <div
                         className="absolute-el bg-white flex items-center justify-center gap-2"
-                        onClick={() => setCount(1)}
+                        onClick={() => onAddItemToCart(product)}
                     >
                         <img
-                            src="../../../assets/images/icon-add-to-cart.svg"
+                            src="/assets/images/icon-add-to-cart.svg"
                             alt="Add-to-cart icon"
                         />
                         <span className="text-sm font-semibold">
@@ -52,17 +57,21 @@ function ProductCard({ item, name }) {
                     <div className="absolute-el bg-red border-none text-white flex justify-evenly items-center">
                         <button
                             className="border border-white rounded-full size-6 flex items-center justify-center"
-                            onClick={() => setCount(count - 1)}
+                            onClick={() =>
+                                onUpdateQuantity(product.category, -1)
+                            }
                         >
                             <img
                                 src="../../../assets/images/icon-decrement-quantity.svg"
                                 alt="minus icon"
                             />
                         </button>
-                        <span>{count}</span>
+                        <span>{onHandleItemQuantity(product.category)}</span>
                         <button
                             className="border border-white rounded-full size-6 flex items-center justify-center"
-                            onClick={() => setCount(count + 1)}
+                            onClick={() =>
+                                onUpdateQuantity(product.category, 1)
+                            }
                         >
                             <img
                                 src="../../../assets/images/icon-increment-quantity.svg"
@@ -78,24 +87,30 @@ function ProductCard({ item, name }) {
                     className="text-sm text-red-500 font-light mb-1
       "
                 >
-                    {item.category}
+                    {product.category}
                 </p>
                 <h3 className="text-base text-red-900 font-semibold">
-                    {item.name}
+                    {product.name}
                 </h3>
                 <span className="text-base text-red font-semibold">
-                    ${item.price.toFixed(2)}
+                    ${product.price.toFixed(2)}
                 </span>
             </div>
         </article>
     );
 }
 
-function Product() {
+function Product({ onAddItemToCart, onUpdateQuantity, onHandleItemQuantity }) {
     return (
         <>
-            {data.map(item => (
-                <ProductCard item={item} name={item.category} />
+            {data.map(product => (
+                <ProductCard
+                    product={product}
+                    key={product.category}
+                    onAddItemToCart={onAddItemToCart}
+                    onUpdateQuantity={onUpdateQuantity}
+                    onHandleItemQuantity={onHandleItemQuantity}
+                />
             ))}
         </>
     );

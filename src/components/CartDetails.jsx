@@ -1,13 +1,21 @@
 function CartDetails() {
     return (
         <>
-            <ProductSummary />
+            <ul>
+                <ProductSummary />
+            </ul>
             <OrderSummary />
         </>
     );
 }
 
-function ProductSummary() {}
+function ProductSummary() {
+    return (
+        <li>
+            <hr className="border-red-100 my-4 border-[0.1em]" />
+        </li>
+    );
+}
 
 function OrderSummary() {
     return (
