@@ -6,13 +6,13 @@ function ProductCard({
     product,
     onAddItemToCart,
     onUpdateQuantity,
-    onHandleItemQuantity
+    onGetItemQuantity
 }) {
     return (
         <article className="mb-6">
             <div
                 className={`relative ${
-                    onHandleItemQuantity(product.category) > 0
+                    onGetItemQuantity(product.category) > 0
                         ? "border-2 border-red rounded-lg"
                         : ""
                 }`}
@@ -20,17 +20,18 @@ function ProductCard({
                 <figure>
                     {/*Show appropriate image based on device width*/}
                     <picture>
+                      
                         <source
-                            srcSet={product.image.mobile}
-                            media="(min-width: 320px)"
+                            srcSet={product.image.desktop}
+                            media="(min-width: 1280px)"
                         />
                         <source
                             srcSet={product.image.tablet}
                             media="(min-width: 768px)"
                         />
-                        <source
-                            srcSet={product.image.desktop}
-                            media="(min-width: 1280px)"
+                          <source
+                            srcSet={product.image.mobile}
+                            media="(min-width: 320px)"
                         />
                         <img
                             src={product.image.mobile}
@@ -40,7 +41,7 @@ function ProductCard({
                     </picture>
                 </figure>
                 {/*Render two separate elements depending on count */}
-                {onHandleItemQuantity(product.category) === 0 ? (
+                {onGetItemQuantity(product.category) === 0 ? (
                     <div
                         className="absolute-el bg-white flex items-center justify-center gap-2"
                         onClick={() => onAddItemToCart(product)}
@@ -66,7 +67,7 @@ function ProductCard({
                                 alt="minus icon"
                             />
                         </button>
-                        <span>{onHandleItemQuantity(product.category)}</span>
+                        <span>{onGetItemQuantity(product.category)}</span>
                         <button
                             className="border border-white rounded-full size-6 flex items-center justify-center"
                             onClick={() =>
@@ -100,7 +101,7 @@ function ProductCard({
     );
 }
 
-function Product({ onAddItemToCart, onUpdateQuantity, onHandleItemQuantity }) {
+function Product({ onAddItemToCart, onUpdateQuantity, onGetItemQuantity }) {
     return (
         <>
             {data.map(product => (
@@ -109,7 +110,7 @@ function Product({ onAddItemToCart, onUpdateQuantity, onHandleItemQuantity }) {
                     key={product.category}
                     onAddItemToCart={onAddItemToCart}
                     onUpdateQuantity={onUpdateQuantity}
-                    onHandleItemQuantity={onHandleItemQuantity}
+                    onGetItemQuantity={onGetItemQuantity}
                 />
             ))}
         </>

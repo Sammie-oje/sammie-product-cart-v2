@@ -4,7 +4,7 @@ function ProductList({
     data,
     onAddItemToCart,
     onUpdateQuantity,
-    onHandleItemQuantity
+    onGetItemQuantity
 }) {
     return (
         <section>
@@ -13,7 +13,7 @@ function ProductList({
                 <Product
                     onAddItemToCart={onAddItemToCart}
                     onUpdateQuantity={onUpdateQuantity}
-                    onHandleItemQuantity={onHandleItemQuantity}
+                    onGetItemQuantity={onGetItemQuantity}
                 />
             </div>
         </section>

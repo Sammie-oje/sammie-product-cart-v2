@@ -44,19 +44,45 @@ function App() {
     {
         /*This function gets the product's quantity whose id is passed aw the parameter*/
     }
-    const handleItemQuantity = productId => {
+    const handleGetItemQuantity = productId => {
         const item = cart.find(item => item.id === productId);
         return item ? item.quantity : 0;
     };
+
+    {
+        /*Calculate and get the sum of the total quantity * the price*/
+    }
+    const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    );
+
+    {
+        /*Calculate and get the total quantity in the cart*/
+    }
+    const totalItem = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    {
+        /*Remove item from cart*/
+    }
+    const removeItemFromCart = productId => {
+        setCart(cart.filter(item => item.id !== productId));
+}
 
     return (
         <>
             <ProductList
                 onAddItemToCart={handleAddItemToCart}
                 onUpdateQuantity={handleUpdateQuantity}
-                onHandleItemQuantity = {handleItemQuantity}
+                onGetItemQuantity={handleGetItemQuantity}
             />
-            <Cart />
+            <Cart
+                cart={cart}
+                onGetItemQuantity={handleGetItemQuantity}
+                total={total}
+                totalItem={totalItem}
+                onRemoveItemFromCart ={removeItemFromCart}
+            />
         </>
     );
 }

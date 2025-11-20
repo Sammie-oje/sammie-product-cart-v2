@@ -1,10 +1,15 @@
 import Button from "../Button";
 import CartDetails from "../CartDetails";
 
-function ActiveCart() {
+function ActiveCart({ cart, total, onRemoveItemFromCart }) {
     return (
         <>
-          <CartDetails/>
+            <CartDetails
+                cart={cart}
+            
+                total={total}
+                onRemoveItemFromCart={onRemoveItemFromCart}
+            />
             <CarbonNeutralMessage />
             <Button>Confirm here</Button>
         </>
