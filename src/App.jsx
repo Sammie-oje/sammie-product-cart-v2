@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductList from "./components/products/ProductList";
 import Cart from "./components/cart/Cart";
 import Modal from "./components/modal/Modal";
@@ -7,7 +7,20 @@ function App() {
     {
         /*State to manage cart items and products*/
     }
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(() => {
+        {
+            /*Check if cart is in localStorage, if not start from an empty array*/
+        }
+        const saved = localStorage.getItem("cart");
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    {
+        /*update localStorage whenever the cart changes*/
+    }
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }, [cart]);
 
     {
         /*State to manage modal appearance*/
@@ -24,7 +37,7 @@ function App() {
     }
     const isModalToFalse = () => {
         setIsModal(false);
-        setCart([])
+        setCart([]);
     };
 
     {
