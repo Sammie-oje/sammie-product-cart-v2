@@ -1,12 +1,13 @@
-function CartDetails({ cart, total, onRemoveItemFromCart }) {
+function CartDetails({ cart, total, onRemoveItemFromCart, isModal }) {
     return (
         <>
-            <ul>
+            <ul className={isModal && "max-h-57 overflow-y-scroll"}>
                 {cart.map(item => (
                     <ProductSummary
                         item={item}
                         key={item.id}
                         onRemoveItemFromCart={onRemoveItemFromCart}
+                        isModal={isModal}
                     />
                 ))}
             </ul>
@@ -14,50 +15,75 @@ function CartDetails({ cart, total, onRemoveItemFromCart }) {
         </>
     );
 }
+{
+    /*This component is dynamic and renders differently based on the isModal state. */
+}
 
-function ProductSummary({ item, onRemoveItemFromCart }) {
+function ProductSummary({ item, onRemoveItemFromCart, isModal }) {
     return (
         <>
             <li className="flex items-center justify-between">
-                <div className="flex flex-col gap-2">
-                    <h3 className="text-sm text-red-900 font-semibold">
-                        {item.name}
-                    </h3>
-                    <p className="text-sm">
-                        <span className="font-bold mr-2.5 text-red">
-                            {item.quantity}x
-                        </span>
-                        <span className="mr-1.5 ">@ ${item.price}</span>
-                        <span className="font-bold text-red-500">
-                            ${(item.quantity * item.price).toFixed(2)}
-                        </span>
-                    </p>
+                <div className={isModal && "flex gap-4 items-center"}>
+                    {isModal && (
+                        <img
+                            src={item.image}
+                            alt="product thumbnail"
+                            className="size-12 rounded"
+                        />
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                        <h3 className="text-sm text-red-900 font-semibold">
+                            {item.name}
+                        </h3>
+                        <p className="text-sm">
+                            <span className="font-bold mr-2.5 text-red">
+                                {item.quantity}x
+                            </span>
+                            <span className="mr-1.5 ">
+                                @ ${item.price.toFixed(2)}
+                            </span>
+
+                            {!isModal && (
+                                <span className="font-bold text-red-500">
+                                    ${(item.quantity * item.price).toFixed(2)}
+                                </span>
+                            )}
+                        </p>
+                    </div>
                 </div>
 
-                <button
-                    onClick={() => onRemoveItemFromCart(item.id)}
-                    className="grid place-items-center group size-5 border border-red-400 rounded-full hover:border-red-900 hover:stroke-red-900 cursor-pointer"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="10"
-                        height="10"
-                        fill="none"
-                        viewBox="0 0 10 10"
+                {isModal ? (
+                    <p className="font-semibold text-red-900">
+                        ${(item.quantity * item.price).toFixed(2)}
+                    </p>
+                ) : (
+                    <button
+                        onClick={() => onRemoveItemFromCart(item.id)}
+                        className="grid place-items-center group size-5 border border-red-400 rounded-full hover:border-red-900 hover:stroke-red-900 cursor-pointer"
                     >
-                        <path
-                        className="group-hover:fill-red-900"
-                            fill="#CAAFA7"
-                            d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"
-                        />
-                    </svg>
-                </button>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="10"
+                            height="10"
+                            fill="none"
+                            viewBox="0 0 10 10"
+                        >
+                            <path
+                                className="group-hover:fill-red-900"
+                                fill="#CAAFA7"
+                                d="M8.375 9.375 5 6 1.625 9.375l-1-1L4 5 .625 1.625l1-1L5 4 8.375.625l1 1L6 5l3.375 3.375-1 1Z"
+                            />
+                        </svg>
+                    </button>
+                )}
             </li>
             <hr className="border-red-100 my-4 border-[1px]" />
         </>
     );
 }
 
+{/*Shows the total order price*/}
 function OrderSummary({ total }) {
     return (
         <div className="flex justify-between items-center mt-2 text-red-900 ">

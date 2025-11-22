@@ -1,17 +1,26 @@
 import Button from "../Button";
 import CartDetails from "../CartDetails";
 
-function ActiveCart({ cart, total, onRemoveItemFromCart }) {
+{
+    /*This component shows and renders the data in the cart in a UI friendly way*/
+}
+function ActiveCart({
+    cart,
+    total,
+    onRemoveItemFromCart,
+    isModalToTrue,
+    isModal
+}) {
     return (
         <>
             <CartDetails
                 cart={cart}
-            
                 total={total}
                 onRemoveItemFromCart={onRemoveItemFromCart}
+                isModal={isModal}
             />
             <CarbonNeutralMessage />
-            <Button>Confirm here</Button>
+            <Button handleClick={isModalToTrue}>Confirm here</Button>
         </>
     );
 }

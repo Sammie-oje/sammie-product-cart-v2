@@ -1,16 +1,32 @@
 import { useState } from "react";
 import ProductList from "./components/products/ProductList";
 import Cart from "./components/cart/Cart";
+import Modal from "./components/modal/Modal";
 
 function App() {
     {
         /*State to manage cart items and products*/
     }
     const [cart, setCart] = useState([]);
+
     {
         /*State to manage modal appearance*/
     }
     const [isModal, setIsModal] = useState(false);
+
+    {
+        /*Set isModal to true*/
+    }
+    const isModalToTrue = () => setIsModal(true);
+
+    {
+        /*Set isModal to false and reset cart to its original state*/
+    }
+    const isModalToFalse = () => {
+        setIsModal(false);
+        setCart([])
+    };
+
     {
         /*Add item to cart*/
     }
@@ -67,7 +83,12 @@ function App() {
     }
     const removeItemFromCart = productId => {
         setCart(cart.filter(item => item.id !== productId));
-}
+    };
+
+    {
+        /*Reset cart to default state*/
+    }
+    const resetCart = () => setCart([]);
 
     return (
         <>
@@ -81,8 +102,18 @@ function App() {
                 onGetItemQuantity={handleGetItemQuantity}
                 total={total}
                 totalItem={totalItem}
-                onRemoveItemFromCart ={removeItemFromCart}
+                onRemoveItemFromCart={removeItemFromCart}
+                isModalToTrue={isModalToTrue}
+                isModal={isModal}
             />
+            {isModal && (
+                <Modal
+                    isModalToFalse={isModalToFalse}
+                    cart={cart}
+                    total={total}
+                    isModal={isModal}
+                />
+            )}
         </>
     );
 }
